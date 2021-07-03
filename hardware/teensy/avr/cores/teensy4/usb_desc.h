@@ -284,7 +284,7 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define ENDPOINT3_CONFIG      ENDPOINT_RECEIVE_BULK + ENDPOINT_TRANSMIT_UNUSED
   #define ENDPOINT4_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_BULK
 
-#elif defined(USB_NSGAMEPAD)
+#elif defined(USB_JOYSTICK_NSGAMEPAD)
   #define DEVICE_CLASS          0x00    // Defined at interface level
   #define DEVICE_SUBCLASS       0x00
   #define DEVICE_PROTOCOL       0x00
@@ -298,17 +298,22 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define PRODUCT_NAME          {'H','O','R','I','P','A','D',' ','S'}
   #define PRODUCT_NAME_LEN      9
   #define EP0_SIZE              64
-  #define NUM_ENDPOINTS         2
+  #define NUM_ENDPOINTS         3
   #define NUM_USB_BUFFERS       14
-  #define NUM_INTERFACE         1
-  #define NSGAMEPAD_INTERFACE   0
-  #define NSGAMEPAD_ENDPOINT    2
+  #define NUM_INTERFACE         2
+  #define JOYSTICK_INTERFACE    0	// Joystick
+  #define JOYSTICK_ENDPOINT     2
+  #define JOYSTICK_SIZE         12
+  #define JOYSTICK_INTERVAL     1
+  #define NSGAMEPAD_INTERFACE   1 // NSGamepad
+  #define NSGAMEPAD_ENDPOINT    3
   #define NSGAMEPAD_SIZE        64
   #define NSGAMEPAD_REPORT_SIZE 8
   #define NSGAMEPAD_INTERVAL    5
   #define ENDPOINT2_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_INTERRUPT
+  #define ENDPOINT3_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_INTERRUPT
 
-#elif defined(USB_SERIAL_NSGAMEPAD)
+#elif defined(USB_SERIAL_JOYSTICK_NSGAMEPAD)
   #define BCD_DEVICE            0x0572  // 5.72
   #define DEVICE_ATTRIBUTES     0x80    // Bus powered
   #define DEVICE_POWER          0xFA    // 500 mA
@@ -319,9 +324,9 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define PRODUCT_NAME          {'H','O','R','I','P','A','D',' ','S'}
   #define PRODUCT_NAME_LEN      9
   #define EP0_SIZE              64
-  #define NUM_ENDPOINTS         5
+  #define NUM_ENDPOINTS         6
   #define NUM_USB_BUFFERS       14
-  #define NUM_INTERFACE         3
+  #define NUM_INTERFACE         4
   #define CDC_IAD_DESCRIPTOR    1
   #define CDC_STATUS_INTERFACE  0
   #define CDC_DATA_INTERFACE    1
@@ -333,14 +338,19 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define CDC_TX_SIZE_480       512
   #define CDC_RX_SIZE_12        64
   #define CDC_TX_SIZE_12        64
-  #define NSGAMEPAD_INTERFACE   2
-  #define NSGAMEPAD_ENDPOINT    4
+  #define JOYSTICK_INTERFACE    2	// Joystick
+  #define JOYSTICK_ENDPOINT     2
+  #define JOYSTICK_SIZE         12
+  #define JOYSTICK_INTERVAL     1
+  #define NSGAMEPAD_INTERFACE   3 // NSGamepad
+  #define NSGAMEPAD_ENDPOINT    5
   #define NSGAMEPAD_SIZE        64
   #define NSGAMEPAD_REPORT_SIZE 8
   #define NSGAMEPAD_INTERVAL    5
   #define ENDPOINT2_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_INTERRUPT
   #define ENDPOINT3_CONFIG      ENDPOINT_RECEIVE_BULK + ENDPOINT_TRANSMIT_BULK
   #define ENDPOINT4_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_INTERRUPT
+  #define ENDPOINT5_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_INTERRUPT
 
 #elif defined(USB_HID)
   #define VENDOR_ID		0x16C0
