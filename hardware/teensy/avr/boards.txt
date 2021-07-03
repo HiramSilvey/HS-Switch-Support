@@ -93,6 +93,8 @@ teensy41.menu.usb.joystick.build.usbtype=USB_JOYSTICK
 #teensy41.menu.usb.joystickserial.build.usbtype=USB_SERIAL_JOYSTICK
 teensy41.menu.usb.nsgamepad=Joystick + NS Gamepad
 teensy41.menu.usb.nsgamepad.build.usbtype=USB_JOYSTICK_NSGAMEPAD
+teensy41.menu.usb.nsgamepad=Serial + Joystick + NS Gamepad
+teensy41.menu.usb.nsgamepad.build.usbtype=USB_SERIAL_JOYSTICK_NSGAMEPAD
 #teensy41.menu.usb.disable=No USB
 #teensy41.menu.usb.disable.build.usbtype=USB_DISABLED
 
@@ -298,6 +300,8 @@ teensy40.menu.usb.joystick.build.usbtype=USB_JOYSTICK
 #teensy40.menu.usb.joystickserial.build.usbtype=USB_SERIAL_JOYSTICK
 teensy40.menu.usb.nsgamepad=Joystick + NS Gamepad
 teensy40.menu.usb.nsgamepad.build.usbtype=USB_JOYSTICK_NSGAMEPAD
+teensy40.menu.usb.nsgamepad=Serial + Joystick + NS Gamepad
+teensy40.menu.usb.nsgamepad.build.usbtype=USB_SERIAL_JOYSTICK_NSGAMEPAD
 #teensy40.menu.usb.disable=No USB
 #teensy40.menu.usb.disable.build.usbtype=USB_DISABLED
 
