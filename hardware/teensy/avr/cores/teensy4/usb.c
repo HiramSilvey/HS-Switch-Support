@@ -12,7 +12,7 @@
 #include "usb_touch.h"
 #include "usb_midi.h"
 #include "usb_audio.h"
-#include "core_pins.h" // for delay()
+#include "core_pins.h" // for reading usb mode pin & delay()
 #include "avr/pgmspace.h"
 #include <string.h>
 #include "debug/printf.h"
@@ -390,6 +390,9 @@ static uint8_t reply_buffer[8];
 
 static void endpoint0_setup(uint64_t setupdata)
 {
+  pinMode(16, INPUT_PULLUP);
+  const uint8_t nsgamepad = digitalRead(16);
+
 	setup_t setup;
 	uint32_t endpoint, dir, ctrl;
 	const usb_descriptor_list_t *list;

@@ -626,23 +626,11 @@ static uint8_t flightsim_report_desc[] = {
 #define SEREMU_INTERFACE_DESC_SIZE	0
 #endif
 
-#define JOYSTICK_INTERFACE_DESC_POS	SEREMU_INTERFACE_DESC_POS+SEREMU_INTERFACE_DESC_SIZE
-#ifdef  JOYSTICK_INTERFACE
-#define JOYSTICK_INTERFACE_DESC_SIZE	9+9+7
-#define JOYSTICK_HID_DESC_OFFSET	JOYSTICK_INTERFACE_DESC_POS+9
-#else
-#define JOYSTICK_INTERFACE_DESC_SIZE	0
-#endif
+#define HS_INTERFACE_DESC_POS	SEREMU_INTERFACE_DESC_POS+SEREMU_INTERFACE_DESC_SIZE
+#define HS_INTERFACE_DESC_SIZE	9+9+7
+#define HS_HID_DESC_OFFSET	HS_INTERFACE_DESC_POS+9
 
-#define NSGAMEPAD_INTERFACE_DESC_POS JOYSTICK_INTERFACE_DESC_POS+JOYSTICK_INTERFACE_DESC_SIZE
-#ifdef  NSGAMEPAD_INTERFACE
-#define NSGAMEPAD_INTERFACE_DESC_SIZE	9+9+7
-#define NSGAMEPAD_HID_DESC_OFFSET	NSGAMEPAD_INTERFACE_DESC_POS+9
-#else
-#define NSGAMEPAD_INTERFACE_DESC_SIZE	0
-#endif
-
-#define MTP_INTERFACE_DESC_POS		NSGAMEPAD_INTERFACE_DESC_POS+NSGAMEPAD_INTERFACE_DESC_SIZE
+#define MTP_INTERFACE_DESC_POS		HS_INTERFACE_DESC_POS+HS_INTERFACE_DESC_SIZE
 #ifdef  MTP_INTERFACE
 #define MTP_INTERFACE_DESC_SIZE		9+7+7+7
 #else
@@ -1360,6 +1348,7 @@ PROGMEM const uint8_t usb_config_descriptor_480[CONFIG_DESC_SIZE] = {
         JOYSTICK_INTERVAL,                      // bInterval
 #endif // JOYSTICK_INTERFACE
 
+/*
 #ifdef NSGAMEPAD_INTERFACE
 	// configuration for 480 Mbit/sec speed
         9,                                      // bLength (length of interface descriptor 9 bytes)
@@ -1388,6 +1377,7 @@ PROGMEM const uint8_t usb_config_descriptor_480[CONFIG_DESC_SIZE] = {
         NSGAMEPAD_SIZE, 0,                      // wMaxPacketSize
         NSGAMEPAD_INTERVAL,                     // bInterval
 #endif // NSGAMEPAD_INTERFACE
+*/
 
 #ifdef MTP_INTERFACE
 	// configuration for 480 Mbit/sec speed
@@ -2375,6 +2365,7 @@ PROGMEM const uint8_t usb_config_descriptor_12[CONFIG_DESC_SIZE] = {
         JOYSTICK_INTERVAL,                      // bInterval
 #endif // JOYSTICK_INTERFACE
 
+/*
 #ifdef NSGAMEPAD_INTERFACE
 	// configuration for 12 Mbit/sec speed
         9,                                      // bLength (length of interface descriptor 9 bytes)
@@ -2403,6 +2394,7 @@ PROGMEM const uint8_t usb_config_descriptor_12[CONFIG_DESC_SIZE] = {
         NSGAMEPAD_SIZE, 0,                      // wMaxPacketSize
         NSGAMEPAD_INTERVAL,                     // bInterval
 #endif // NSGAMEPAD_INTERFACE
+*/
 
 #ifdef MTP_INTERFACE
 	// configuration for 12 Mbit/sec speed
@@ -2824,12 +2816,14 @@ const usb_descriptor_list_t usb_descriptor_list[] = {
 #endif
 #ifdef JOYSTICK_INTERFACE
         {0x2200, JOYSTICK_INTERFACE, joystick_report_desc, sizeof(joystick_report_desc)},
-        {0x2100, JOYSTICK_INTERFACE, usb_config_descriptor_480+JOYSTICK_HID_DESC_OFFSET, 9},
+        {0x2100, JOYSTICK_INTERFACE, usb_config_descriptor_480+HS_HID_DESC_OFFSET, 9},
 #endif
+/*
 #ifdef NSGAMEPAD_INTERFACE
         {0x2200, NSGAMEPAD_INTERFACE, nsgamepad_report_desc, sizeof(nsgamepad_report_desc)},
         {0x2100, NSGAMEPAD_INTERFACE, usb_config_descriptor_480+NSGAMEPAD_HID_DESC_OFFSET, 9},
 #endif
+*/
 #ifdef RAWHID_INTERFACE
 	{0x2200, RAWHID_INTERFACE, rawhid_report_desc, sizeof(rawhid_report_desc)},
 	{0x2100, RAWHID_INTERFACE, usb_config_descriptor_480+RAWHID_HID_DESC_OFFSET, 9},

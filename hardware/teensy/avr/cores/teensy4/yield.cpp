@@ -55,7 +55,7 @@ void yield(void)
 	running = 1;
 
 
-#if !defined(USB_JOYSTICK) && !defined(USB_NSGAMEPAD)
+#if !defined(USB_HS)
 	// USB Serial - Add hack to minimize impact...
 	if (yield_active_check_flags & YIELD_CHECK_USB_SERIAL) {
 		if (Serial.available()) serialEvent();
