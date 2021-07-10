@@ -92,9 +92,12 @@ static uint8_t endpoint0_buffer[8];
 static uint8_t sof_usage = 0;
 static uint8_t usb_reboot_timer = 0;
 
-extern uint8_t usb_descriptor_buffer[]; // defined in usb_desc.c
-extern const uint8_t usb_config_descriptor_480[];
+extern uint8_t device_descriptor[]; // defined in usb_desc.c
+extern uint8_t usb_descriptor_buffer[];
+extern uint8_t usb_config_descriptor_480[];
 extern const uint8_t usb_config_descriptor_12[];
+extern const uint8_t *nsgamepad_report_desc_addr;
+extern const uint16_t nsgamepad_report_desc_size;
 
 void (*usb_timer0_callback)(void) = NULL;
 void (*usb_timer1_callback)(void) = NULL;
@@ -390,8 +393,32 @@ static uint8_t reply_buffer[8];
 
 static void endpoint0_setup(uint64_t setupdata)
 {
-  pinMode(16, INPUT_PULLUP);
+  for (int i = 0; i <= 21; i++) {
+    if (i == 18 || i == 19) {
+      continue;
+    }
+    pinMode(i, INPUT_PULLUP);
+  }
+  delay(100);
   const uint8_t nsgamepad = digitalRead(16);
+  if (nsgamepad) {
+    // idVendor: 0x0F0D
+    device_descriptor[8] = 0x0D;
+    device_descriptor[9] = 0x0F;
+    // idProduct: 0x00C1
+    device_descriptor[10] = 0xC1;
+    device_descriptor[11] = 0x00;
+    // bcdDevice: 0x0572
+    device_descriptor[12] = 0x72;
+    device_descriptor[13] = 0x05;
+    // bmAttributes: Bus powered
+    usb_config_descriptor_480[7] = 0x80;
+    // bmMaxPower: 500mA
+    usb_config_descriptor_480[8] = 0xFA;
+    // Update report desc from joystick to nsgamepad.
+    usb_descriptor_list[4].addr = nsgamepad_report_desc_addr;
+    usb_descriptor_list[4].length = nsgamepad_report_desc_size;
+  }
 
 	setup_t setup;
 	uint32_t endpoint, dir, ctrl;

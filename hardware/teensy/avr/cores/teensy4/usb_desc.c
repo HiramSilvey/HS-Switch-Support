@@ -74,7 +74,7 @@
 
 // USB Device Descriptor.  The USB host reads this first, to learn
 // what type of device is connected.
-static uint8_t device_descriptor[] = {
+uint8_t device_descriptor[] = {
         18,                                     // bLength
         1,                                      // bDescriptorType
         0x00, 0x02,                             // bcdUSB
@@ -671,7 +671,7 @@ static uint8_t flightsim_report_desc[] = {
 // USB Configuration Descriptor.  This huge descriptor tells all
 // of the devices capbilities.
 
-PROGMEM const uint8_t usb_config_descriptor_480[CONFIG_DESC_SIZE] = {
+uint8_t usb_config_descriptor_480[CONFIG_DESC_SIZE] = {
         // configuration descriptor, USB spec 9.6.3, page 264-266, Table 9-10
         9,                                      // bLength;
         2,                                      // bDescriptorType;
@@ -2796,7 +2796,9 @@ void usb_init_serialnumber(void)
 
 // This table provides access to all the descriptor data above.
 
-const usb_descriptor_list_t usb_descriptor_list[] = {
+const uint8_t *nsgamepad_report_desc_addr = nsgamepad_report_desc;
+const uint16_t nsgamepad_report_desc_size = sizeof(nsgamepad_report_desc);
+usb_descriptor_list_t usb_descriptor_list[] = {
 	//wValue, wIndex, address,          length
 	{0x0100, 0x0000, device_descriptor, sizeof(device_descriptor)},
 	{0x0600, 0x0000, qualifier_descriptor, sizeof(qualifier_descriptor)},
