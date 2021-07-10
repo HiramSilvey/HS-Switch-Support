@@ -1696,7 +1696,7 @@ uint8_t usb_config_descriptor_480[CONFIG_DESC_SIZE] = {
 };
 
 
-PROGMEM const uint8_t usb_config_descriptor_12[CONFIG_DESC_SIZE] = {
+uint8_t usb_config_descriptor_12[CONFIG_DESC_SIZE] = {
         // configuration descriptor, USB spec 9.6.3, page 264-266, Table 9-10
         9,                                      // bLength;
         2,                                      // bDescriptorType;

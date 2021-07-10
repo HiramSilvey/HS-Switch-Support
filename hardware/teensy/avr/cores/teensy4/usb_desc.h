@@ -248,9 +248,9 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define PRODUCT_NAME          {'S','e','r','i','a','l','/','H','S'}
   #define PRODUCT_NAME_LEN      9
   #define EP0_SIZE              64
-  #define NUM_ENDPOINTS         4
+  #define NUM_ENDPOINTS         5
   #define NUM_USB_BUFFERS       14
-  #define NUM_INTERFACE         3
+  #define NUM_INTERFACE         4
   #define CDC_IAD_DESCRIPTOR    1
   #define CDC_STATUS_INTERFACE  0
   #define CDC_DATA_INTERFACE	  1	// Serial
@@ -266,14 +266,15 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define JOYSTICK_ENDPOINT     4
   #define JOYSTICK_SIZE         12
   #define JOYSTICK_INTERVAL     1
-  #define NSGAMEPAD_INTERFACE   2 // NSGamepad
-  #define NSGAMEPAD_ENDPOINT    4
+  #define NSGAMEPAD_INTERFACE   3 // NSGamepad
+  #define NSGAMEPAD_ENDPOINT    5
   #define NSGAMEPAD_SIZE        64
   #define NSGAMEPAD_REPORT_SIZE 8
   #define NSGAMEPAD_INTERVAL    5
   #define ENDPOINT2_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_INTERRUPT
   #define ENDPOINT3_CONFIG      ENDPOINT_RECEIVE_BULK + ENDPOINT_TRANSMIT_BULK
   #define ENDPOINT4_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_INTERRUPT
+  #define ENDPOINT5_CONFIG      ENDPOINT_RECEIVE_UNUSED + ENDPOINT_TRANSMIT_INTERRUPT
 
 #elif defined(USB_HID)
   #define VENDOR_ID		0x16C0

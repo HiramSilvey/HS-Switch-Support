@@ -17,10 +17,15 @@
 #include <string.h>
 #include "debug/printf.h"
 
+uint8_t nsgamepad_active;
+
 //#define LOG_SIZE  20
 //uint32_t transfer_log_head=0;
 //uint32_t transfer_log_count=0;
 //uint32_t transfer_log[LOG_SIZE];
+
+#define LSB(n) ((n) & 255)
+#define MSB(n) (((n) >> 8) & 255)
 
 // device mode, page 3155
 
@@ -95,7 +100,7 @@ static uint8_t usb_reboot_timer = 0;
 extern uint8_t device_descriptor[]; // defined in usb_desc.c
 extern uint8_t usb_descriptor_buffer[];
 extern uint8_t usb_config_descriptor_480[];
-extern const uint8_t usb_config_descriptor_12[];
+extern uint8_t usb_config_descriptor_12[];
 extern const uint8_t *nsgamepad_report_desc_addr;
 extern const uint16_t nsgamepad_report_desc_size;
 
@@ -399,9 +404,8 @@ static void endpoint0_setup(uint64_t setupdata)
     }
     pinMode(i, INPUT_PULLUP);
   }
-  delay(100);
-  const uint8_t nsgamepad = digitalRead(16);
-  if (nsgamepad) {
+  nsgamepad_active = digitalRead(16) == LOW;
+  if (nsgamepad_active) {
     // idVendor: 0x0F0D
     device_descriptor[8] = 0x0D;
     device_descriptor[9] = 0x0F;
@@ -415,7 +419,25 @@ static void endpoint0_setup(uint64_t setupdata)
     usb_config_descriptor_480[7] = 0x80;
     // bmMaxPower: 500mA
     usb_config_descriptor_480[8] = 0xFA;
+    // bInterfaceNumber
+    usb_config_descriptor_480[77] = NSGAMEPAD_INTERFACE;
+    usb_config_descriptor_12[77] = NSGAMEPAD_INTERFACE;
+    // wDescriptorLength
+    usb_config_descriptor_480[91] = LSB(nsgamepad_report_desc_size);
+    usb_config_descriptor_480[92] = MSB(nsgamepad_report_desc_size);
+    usb_config_descriptor_12[91] = LSB(nsgamepad_report_desc_size);
+    usb_config_descriptor_12[92] = MSB(nsgamepad_report_desc_size);
+    // bEndpointAddress
+    usb_config_descriptor_480[95] = NSGAMEPAD_ENDPOINT | 0x80;
+    usb_config_descriptor_12[95] = NSGAMEPAD_ENDPOINT | 0x80;
+    // wMaxPacketSize
+    usb_config_descriptor_480[97] = NSGAMEPAD_SIZE;
+    usb_config_descriptor_12[97] = NSGAMEPAD_SIZE;
+    // bInterval
+    usb_config_descriptor_480[99] = NSGAMEPAD_INTERVAL;
+    usb_config_descriptor_12[99] = NSGAMEPAD_INTERVAL;
     // Update report desc from joystick to nsgamepad.
+    usb_descriptor_list[4].wIndex = NSGAMEPAD_INTERFACE;
     usb_descriptor_list[4].addr = nsgamepad_report_desc_addr;
     usb_descriptor_list[4].length = nsgamepad_report_desc_size;
   }
