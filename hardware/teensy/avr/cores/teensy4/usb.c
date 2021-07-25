@@ -101,8 +101,10 @@ extern uint8_t device_descriptor[]; // defined in usb_desc.c
 extern uint8_t usb_descriptor_buffer[];
 extern uint8_t usb_config_descriptor_480[];
 extern uint8_t usb_config_descriptor_12[];
+#ifdef NSGAMEPAD_INTERFACE
 extern const uint8_t *nsgamepad_report_desc_addr;
 extern const uint16_t nsgamepad_report_desc_size;
+#endif
 
 void (*usb_timer0_callback)(void) = NULL;
 void (*usb_timer1_callback)(void) = NULL;
@@ -404,6 +406,7 @@ static void endpoint0_setup(uint64_t setupdata)
     }
     pinMode(i, INPUT_PULLUP);
   }
+  #ifdef NSGAMEPAD_INTERFACE
   nsgamepad_active = digitalRead(16) == LOW;
   if (nsgamepad_active) {
     // idVendor: 0x0F0D
@@ -441,6 +444,7 @@ static void endpoint0_setup(uint64_t setupdata)
     usb_descriptor_list[4].addr = nsgamepad_report_desc_addr;
     usb_descriptor_list[4].length = nsgamepad_report_desc_size;
   }
+  #endif
 
 	setup_t setup;
 	uint32_t endpoint, dir, ctrl;
@@ -496,12 +500,15 @@ static void endpoint0_setup(uint64_t setupdata)
 		#if defined(FLIGHTSIM_INTERFACE)
 		usb_flightsim_configure();
 		#endif
-		#if defined(JOYSTICK_INTERFACE)
-		usb_joystick_configure();
-		#endif
-		#if defined(NSGAMEPAD_INTERFACE)
-		usb_nsgamepad_configure();
-		#endif
+    if (nsgamepad_active) {
+      #if defined(NSGAMEPAD_INTERFACE)
+      usb_nsgamepad_configure();
+      #endif
+    } else {
+      #if defined(JOYSTICK_INTERFACE)
+      usb_joystick_configure();
+      #endif
+    }
 		#if defined(MULTITOUCH_INTERFACE)
 		usb_touchscreen_configure();
 		#endif

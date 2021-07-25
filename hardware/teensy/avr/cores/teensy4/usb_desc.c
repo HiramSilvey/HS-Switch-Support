@@ -2796,8 +2796,10 @@ void usb_init_serialnumber(void)
 
 // This table provides access to all the descriptor data above.
 
+#ifdef NSGAMEPAD_INTERFACE
 const uint8_t *nsgamepad_report_desc_addr = nsgamepad_report_desc;
 const uint16_t nsgamepad_report_desc_size = sizeof(nsgamepad_report_desc);
+#endif
 usb_descriptor_list_t usb_descriptor_list[] = {
 	//wValue, wIndex, address,          length
 	{0x0100, 0x0000, device_descriptor, sizeof(device_descriptor)},
