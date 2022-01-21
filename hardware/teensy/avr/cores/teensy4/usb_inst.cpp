@@ -29,6 +29,7 @@
  */
 
 #include <Arduino.h>
+
 #include "usb_desc.h"
 
 #if F_CPU >= 20000000
@@ -88,8 +89,7 @@ usb_nsgamepad_class NSGamepad;
 usb_serial_class Serial;
 #endif
 
-
-#else // F_CPU < 20 MHz
+#else  // F_CPU < 20 MHz
 
 #if defined(USB_SERIAL) || defined(USB_SERIAL_HID)
 usb_serial_class Serial;
@@ -99,4 +99,4 @@ usb_serial_class Serial;
 usb_seremu_class Serial;
 #endif
 
-#endif // F_CPU
+#endif  // F_CPU
