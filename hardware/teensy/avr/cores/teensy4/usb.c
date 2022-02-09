@@ -403,7 +403,7 @@ static void endpoint0_setup(uint64_t setupdata) {
     pinMode(i, INPUT_PULLUP);
   }
 #ifdef NSGAMEPAD_INTERFACE
-  nsgamepad_active = digitalRead(15) == LOW;
+  nsgamepad_active = digitalRead(23) == LOW;
   if (nsgamepad_active) {
     // idVendor: 0x0F0D
     device_descriptor[8] = 0x0D;
