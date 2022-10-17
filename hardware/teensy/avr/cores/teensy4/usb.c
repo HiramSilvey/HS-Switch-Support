@@ -105,6 +105,7 @@ extern uint8_t usb_descriptor_buffer[];
 extern uint8_t usb_config_descriptor_480[];
 extern uint8_t usb_config_descriptor_12[];
 #ifdef NSGAMEPAD_INTERFACE
+const uint8_t SWITCH_PIN = 23;
 extern const uint8_t *nsgamepad_report_desc_addr;
 extern const uint16_t nsgamepad_report_desc_size;
 #endif
@@ -403,8 +404,9 @@ static void endpoint0_setup(uint64_t setupdata) {
     pinMode(i, INPUT_PULLUP);
   }
 #ifdef NSGAMEPAD_INTERFACE
-  delay(100);  // Let the pin level settle before attempting to read.
-  nsgamepad_active = digitalRead(23) == LOW;
+  pinMode(SWITCH_PIN, INPUT_PULLUP);
+  delayMicroseconds(50);  // Allow the resistor time to pull up the pin fully.
+  nsgamepad_active = digitalRead(SWITCH_PIN) == LOW;
   if (nsgamepad_active) {
     // idVendor: 0x0F0D
     device_descriptor[8] = 0x0D;
